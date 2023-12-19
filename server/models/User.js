@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Password is required"],
       maxLength: [8, "Password cannot exceed 8 characters"],
+      select: false,
     },
     avatar: {
       public_id: { type: String },
@@ -52,6 +53,10 @@ userSchema.methods.getJWT = function () {
   return jwt.sign({ _id: this._id, role: this.role }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
+};
+
+userSchema.methods.comparePassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
 };
 
 const User = mongoose.model("User", userSchema);
