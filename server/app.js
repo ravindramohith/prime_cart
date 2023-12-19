@@ -12,6 +12,7 @@ app.use(cookieParser());
 app.use("/api/products", require("./routers/productRouter"));
 app.use("/api/users", require("./routers/userRouter"));
 app.use("/api/orders", require("./routers/orderRouter"));
+app.use("/api/reviews", require("./routers/reviewRouter"));
 
 //Error Handler Middleware
 app.use(require("./middlewares/error"));
