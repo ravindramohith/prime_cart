@@ -4,6 +4,7 @@ const {
   getCurrentUserOrders,
   getAllOrders,
   processOrder,
+  deleteOrder,
 } = require("../controllers/orderController");
 const { checkAuth, authorizedRoles } = require("../middlewares/auth");
 
@@ -16,7 +17,8 @@ router
 router
   .route("/:id")
   .get(checkAuth, getOrder)
-  .put(checkAuth, authorizedRoles("admin"), processOrder);
+  .put(checkAuth, authorizedRoles("admin"), processOrder)
+  .delete(checkAuth, authorizedRoles("admin"), deleteOrder);
 router.route("/my/orders").get(checkAuth, getCurrentUserOrders);
 
 module.exports = router;
