@@ -5,7 +5,10 @@ const {
   forgotPassword,
   resetPassword,
 } = require("../controllers/authController");
-const { getCurrentUser } = require("../controllers/userController");
+const {
+  getCurrentUser,
+  updatePassword,
+} = require("../controllers/userController");
 const { checkAuth } = require("../middlewares/auth");
 
 const router = require("express").Router();
@@ -16,5 +19,6 @@ router.route("/signout").get(signOut);
 router.route("/password/forgot").post(forgotPassword);
 router.route("/password/reset/:token").put(resetPassword);
 router.route("/me").get(checkAuth, getCurrentUser);
+router.route("/me/updatePassword").put(checkAuth, updatePassword);
 
 module.exports = router;
