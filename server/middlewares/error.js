@@ -27,6 +27,14 @@ module.exports = (err, req, res, next) => {
       400
     );
 
+  // Wrong Jwt error
+  if (err.name === "JsonWebTokenError")
+    err = new ErrorHandler(`JSON Web Token is invalid. Please Try again!`, 400);
+
+  //Jwt expired error
+  if (err.name === "TokenExpiredError")
+    err = new ErrorHandler(`JSON Web Token is expired. Please Try again!`, 400);
+
   if (process.env.NODE_ENV === "PRODUCTION")
     res
       .status(error.statusCode)
