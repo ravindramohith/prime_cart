@@ -20,7 +20,7 @@ module.exports = class APIFactory {
   filter() {
     const queryObject = { ...this.queryString };
 
-    const fieldsToExclude = ["keyword"];
+    const fieldsToExclude = ["keyword", "page"];
     fieldsToExclude.forEach((field) => delete queryObject[field]);
 
     let queryString = JSON.stringify(queryObject);
@@ -29,6 +29,15 @@ module.exports = class APIFactory {
       (match) => `$${match}`
     );
     this.query = this.query.find(JSON.parse(queryString));
+    return this;
+  }
+
+  pagination(itemsPerPage) {
+    const currentPage = parseInt(this.queryString.page) || 1;
+
+    this.query = this.query
+      .limit(itemsPerPage)
+      .skip((currentPage - 1) * itemsPerPage);
     return this;
   }
 };
