@@ -3,7 +3,7 @@ const APIFactory = require("../utils/apiFactory");
 const catchAsync = require("../utils/catchAsync");
 const ErrorHandler = require("../utils/errorHandler");
 
-const ITEMS_PER_PAGE = 2;
+const ITEMS_PER_PAGE = 10;
 
 exports.createProduct = catchAsync(async (req, res, next) => {
   const product = await Product.create({ ...req.body, user: req.user._id });

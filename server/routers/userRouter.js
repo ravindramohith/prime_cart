@@ -9,8 +9,9 @@ const {
   getCurrentUser,
   updatePassword,
   updateCurrentUser,
+  getAllUsers,
 } = require("../controllers/userController");
-const { checkAuth } = require("../middlewares/auth");
+const { checkAuth, authorizedRoles } = require("../middlewares/auth");
 
 const router = require("express").Router();
 
@@ -24,5 +25,6 @@ router
   .get(checkAuth, getCurrentUser)
   .put(checkAuth, updateCurrentUser);
 router.route("/me/updatePassword").put(checkAuth, updatePassword);
+router.route("/").get(checkAuth, authorizedRoles("admin"), getAllUsers);
 
 module.exports = router;

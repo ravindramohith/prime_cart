@@ -1,7 +1,9 @@
 const User = require("../models/User");
+const APIFactory = require("../utils/apiFactory");
 const catchAsync = require("../utils/catchAsync");
 const ErrorHandler = require("../utils/errorHandler");
 
+const ITEMS_PER_PAGE = 10;
 exports.getCurrentUser = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   res.status(200).json({
@@ -39,5 +41,19 @@ exports.updateCurrentUser = catchAsync(async (req, res, next) => {
     success: true,
     message: "User updated successfully",
     data: user,
+  });
+});
+
+exports.getAllUsers = catchAsync(async (req, res, next) => {
+  const apiFactory = new APIFactory(User, req.query).search().filter();
+  let users = await apiFactory.query;
+  const count = users.length;
+
+  apiFactory.pagination(ITEMS_PER_PAGE);
+  users = await apiFactory.query.clone();
+  res.status(200).json({
+    success: true,
+    count,
+    data: users,
   });
 });
