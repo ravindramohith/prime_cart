@@ -6,7 +6,7 @@ const ErrorHandler = require("../utils/errorHandler");
 const ITEMS_PER_PAGE = 2;
 
 exports.createProduct = catchAsync(async (req, res, next) => {
-  const product = await Product.create(req.body);
+  const product = await Product.create({ ...req.body, user: req.user._id });
   res.status(201).json({
     success: true,
     message: "Product created successfully",
