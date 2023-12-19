@@ -1,18 +1,12 @@
-const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-
-const app = express();
 
 if (process.env.NODE_ENV !== "PRODUCTION") {
   dotenv.config({ path: "server/config.env" });
 }
 
-// body parser
-app.use(express.json());
+const server = require("./app");
 
-// Routers
-app.use("/api/products", require("./routers/productRouter"));
 mongoose
   .connect(process.env.MONGODB_URI)
   .then((connection) =>
@@ -20,7 +14,7 @@ mongoose
   )
   .catch((e) => console.log(`MongoDB connect error: ${e}`));
 
-app.listen(process.env.PORT || 4000, () => {
+server.listen(process.env.PORT || 4000, () => {
   console.log(
     `Server listening on port ${process.env.PORT || 4000} | Environment: ${
       process.env.NODE_ENV
