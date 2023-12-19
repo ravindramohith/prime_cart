@@ -24,3 +24,20 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
     message: "Password updated successfully",
   });
 });
+
+exports.updateCurrentUser = catchAsync(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      name: req.body.name,
+      email: req.body.email,
+    },
+    { new: true }
+  );
+
+  res.status(200).json({
+    success: true,
+    message: "User updated successfully",
+    data: user,
+  });
+});
