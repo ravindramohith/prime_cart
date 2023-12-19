@@ -13,7 +13,7 @@ exports.createProduct = catchAsync(async (req, res) => {
 });
 
 exports.getAllProducts = catchAsync(async (req, res) => {
-  const apiFactory = new APIFactory(Product, req.query).search();
+  const apiFactory = new APIFactory(Product, req.query).search().filter();
   let products = await apiFactory.query;
   res.status(200).json({
     success: true,
