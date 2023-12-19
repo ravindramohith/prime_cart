@@ -1,12 +1,12 @@
 const User = require("../models/User");
 const catchAsync = require("../utils/catchAsync");
 const ErrorHandler = require("../utils/errorHandler");
+const sendTokenAsCookie = require("../utils/sendTokenAsCookie");
 
 exports.signUp = catchAsync(async (req, res, next) => {
   const { name, email, password } = req.body;
   const user = await User.create({ name, email, password });
-  const token = user.getJWT();
-  res.status(201).json({ success: true, data: user, token });
+  sendTokenAsCookie(user, 201, res);
 });
 
 exports.signIn = catchAsync(async (req, res, next) => {
@@ -21,6 +21,5 @@ exports.signIn = catchAsync(async (req, res, next) => {
   const isMatch = await user.comparePassword(password);
   if (!isMatch) return next(new ErrorHandler("Password is incorrect", 401));
 
-  const token = user.getJWT();
-  res.status(200).json({ success: true, data: user, token });
+  sendTokenAsCookie(user, 200, res);
 });
