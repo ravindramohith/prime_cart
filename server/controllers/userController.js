@@ -88,3 +88,11 @@ exports.updateUser = catchAsync(async (req, res, next) => {
     data: user,
   });
 });
+
+exports.deleteUser = catchAsync(async (req, res, next) => {
+  const user = await User.findByIdAndDelete(req.params.id);
+  res.status(200).json({
+    success: true,
+    message: "User deleted successfully",
+  });
+});

@@ -12,6 +12,7 @@ const {
   getAllUsers,
   getUser,
   updateUser,
+  deleteUser,
 } = require("../controllers/userController");
 const { checkAuth, authorizedRoles } = require("../middlewares/auth");
 
@@ -36,6 +37,7 @@ router.route("/").get(checkAuth, authorizedRoles("admin"), getAllUsers);
 router
   .route("/:id")
   .get(checkAuth, authorizedRoles("admin"), getUser)
-  .put(checkAuth, authorizedRoles("admin"), updateUser);
+  .put(checkAuth, authorizedRoles("admin"), updateUser)
+  .delete(checkAuth, authorizedRoles("admin"), deleteUser);
 
 module.exports = router;
