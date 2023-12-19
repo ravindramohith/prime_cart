@@ -4,6 +4,7 @@ const { getResetPasswordTemplate } = require("../utils/emailTemplates");
 const ErrorHandler = require("../utils/errorHandler");
 const { sendEmail } = require("../utils/sendEmail");
 const sendTokenAsCookie = require("../utils/sendTokenAsCookie");
+const crypto = require("crypto");
 
 exports.signUp = catchAsync(async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -67,4 +68,35 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
       await user.save();
       return next(new ErrorHandler(err?.message, 500));
     });
+});
+
+exports.resetPassword = catchAsync(async (req, res, next) => {
+  // Hashing the URL token:
+  const hashedToken = crypto
+    .createHash("sha256")
+    .update(req.params.token)
+    .digest("hex");
+
+  const user = await User.findOne({
+    resetPasswordToken: hashedToken,
+    resetPasswordTokenExpires: { $gt: Date.now() },
+  });
+
+  if (!user)
+    return next(
+      new ErrorHandler(
+        "Password reset token is invalid or has been expired",
+        400
+      )
+    );
+
+  if (req.body.password !== req.body.confirmPassword)
+    return next(new ErrorHandler("Passwords do not match", 400));
+
+  user.password = req.body.password;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordTokenExpires = undefined;
+  await user.save();
+
+  sendTokenAsCookie(user, 200, res);
 });
