@@ -39,3 +39,12 @@ exports.getCurrentUserOrders = catchAsync(async (req, res, next) => {
     orders,
   });
 });
+
+exports.getAllOrders = catchAsync(async (req, res, next) => {
+  const orders = await Order.find();
+  res.status(200).json({
+    success: true,
+    message: "Orders retrieved successfully",
+    orders,
+  });
+});

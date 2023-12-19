@@ -49,8 +49,8 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
   let users = await apiFactory.query;
   const count = users.length;
 
-  apiFactory.pagination(ITEMS_PER_PAGE);
-  users = await apiFactory.query.clone();
+  // apiFactory.pagination(ITEMS_PER_PAGE);
+  // users = await apiFactory.query.clone();
   res.status(200).json({
     success: true,
     count,
