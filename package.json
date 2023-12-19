@@ -1,0 +1,11 @@
+{
+  "name": "e_shop",
+  "version": "1.0.0",
+  "description": "Ecommerce project with MERN stack",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ravindra Mohith",
+  "license": "ISC"
+}
