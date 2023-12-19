@@ -11,6 +11,7 @@ app.use(cookieParser());
 // Routers
 app.use("/api/products", require("./routers/productRouter"));
 app.use("/api/users", require("./routers/userRouter"));
+app.use("/api/orders", require("./routers/orderRouter"));
 
 //Error Handler Middleware
 app.use(require("./middlewares/error"));
