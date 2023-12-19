@@ -21,9 +21,9 @@ mongoose
   )
   .catch((e) => console.log(`MongoDB connect error: ${e}`));
 
-server.listen(process.env.PORT || 4000, () => {
+server.listen(process.env.PORT || 4444, () => {
   console.log(
-    `Server listening on port ${process.env.PORT || 4000} | Environment: ${
+    `Server listening on port ${process.env.PORT || 4444} | Environment: ${
       process.env.NODE_ENV
     }`
   );

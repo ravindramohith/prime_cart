@@ -6,11 +6,28 @@ module.exports = (err, req, res, next) => {
     message: err?.message || "Internal Server Error",
   };
 
-  // Invalid Mongoose ID Error
+  // Cast Error; Ex:Invalid Mongoose ID Error
   if (err?.name === "CastError")
-    error = new ErrorHandler(`Resource not found. Invalid: ${err?.path}`, 404);
+    error = new ErrorHandler(
+      `Resource not found. Invalid ${err?.path}: ${err?.value}`,
+      404
+    );
 
-  if (process.env.NODE_ENV !== "PRODUCTION")
+  // Duplicate key error
+  if (err?.code === 11000)
+    error = new ErrorHandler(
+      `Duplicate ${Object.keys(err.keyValue)} Entered`,
+      400
+    );
+
+  // Validation Error
+  if (err?.name === "ValidationError")
+    error = new ErrorHandler(
+      Object.values(err.errors).map((value) => value.message),
+      400
+    );
+
+  if (process.env.NODE_ENV === "PRODUCTION")
     res
       .status(error.statusCode)
       .json({ success: false, message: error.message });
