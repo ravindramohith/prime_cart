@@ -1,14 +1,16 @@
 const {
   postProductReview,
   getAllProductReviews,
+  deleteProductReview,
 } = require("../controllers/reviewController");
-const { checkAuth } = require("../middlewares/auth");
+const { checkAuth, authorizedRoles } = require("../middlewares/auth");
 
 const router = require("express").Router();
 
 router
   .route("/")
   .get(checkAuth, getAllProductReviews)
-  .put(checkAuth, postProductReview);
+  .put(checkAuth, postProductReview)
+  .delete(checkAuth, authorizedRoles("admin"), deleteProductReview);
 
 module.exports = router;
