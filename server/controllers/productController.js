@@ -1,4 +1,5 @@
 const Product = require("../models/Product");
+const APIFactory = require("../utils/apiFactory");
 const catchAsync = require("../utils/catchAsync");
 const ErrorHandler = require("../utils/errorHandler");
 
@@ -12,10 +13,12 @@ exports.createProduct = catchAsync(async (req, res) => {
 });
 
 exports.getAllProducts = catchAsync(async (req, res) => {
-  const products = await Product.find();
+  const apiFactory = new APIFactory(Product, req.query).search();
+  let products = await apiFactory.query;
   res.status(200).json({
     success: true,
     message: "Products fetched successfully",
+    count: products.length,
     data: products,
   });
 });
