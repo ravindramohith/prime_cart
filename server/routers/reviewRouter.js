@@ -1,8 +1,14 @@
-const { postProductReview } = require("../controllers/reviewController");
+const {
+  postProductReview,
+  getAllProductReviews,
+} = require("../controllers/reviewController");
 const { checkAuth } = require("../middlewares/auth");
 
 const router = require("express").Router();
 
-router.route("/").put(checkAuth, postProductReview);
+router
+  .route("/")
+  .get(checkAuth, getAllProductReviews)
+  .put(checkAuth, postProductReview);
 
 module.exports = router;

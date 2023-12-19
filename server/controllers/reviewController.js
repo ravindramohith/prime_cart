@@ -42,3 +42,19 @@ exports.postProductReview = catchAsync(async (req, res, next) => {
     message: "Review posted successfully",
   });
 });
+
+exports.getAllProductReviews = catchAsync(async (req, res, next) => {
+  const product = await Product.findById(req.query.productId);
+  console.log(req.query);
+  if (!product)
+    return next(
+      new ErrorHandler(`Product not found with id: ${req.query.productId}`, 404)
+    );
+
+  res.status(200).json({
+    success: true,
+    count: product.reviews.length,
+    message: "Reviews fetched successfully",
+    reviews: product.reviews,
+  });
+});
