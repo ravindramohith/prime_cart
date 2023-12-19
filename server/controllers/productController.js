@@ -5,7 +5,7 @@ const ErrorHandler = require("../utils/errorHandler");
 
 const ITEMS_PER_PAGE = 2;
 
-exports.createProduct = catchAsync(async (req, res) => {
+exports.createProduct = catchAsync(async (req, res, next) => {
   const product = await Product.create(req.body);
   res.status(201).json({
     success: true,
@@ -14,7 +14,7 @@ exports.createProduct = catchAsync(async (req, res) => {
   });
 });
 
-exports.getAllProducts = catchAsync(async (req, res) => {
+exports.getAllProducts = catchAsync(async (req, res, next) => {
   const apiFactory = new APIFactory(Product, req.query).search().filter();
   let products = await apiFactory.query;
   const count = products.length;
@@ -30,7 +30,7 @@ exports.getAllProducts = catchAsync(async (req, res) => {
   });
 });
 
-exports.getProduct = catchAsync(async (req, res) => {
+exports.getProduct = catchAsync(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
   if (!product)
     return next(
@@ -44,7 +44,7 @@ exports.getProduct = catchAsync(async (req, res) => {
   });
 });
 
-exports.updateProduct = catchAsync(async (req, res) => {
+exports.updateProduct = catchAsync(async (req, res, next) => {
   const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   });
@@ -60,7 +60,7 @@ exports.updateProduct = catchAsync(async (req, res) => {
   });
 });
 
-exports.deleteProduct = catchAsync(async (req, res) => {
+exports.deleteProduct = catchAsync(async (req, res, next) => {
   const product = await Product.findByIdAndDelete(req.params.id);
   if (!product)
     return next(
