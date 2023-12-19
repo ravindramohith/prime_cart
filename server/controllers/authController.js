@@ -1,6 +1,8 @@
 const User = require("../models/User");
 const catchAsync = require("../utils/catchAsync");
+const { getResetPasswordTemplate } = require("../utils/emailTemplates");
 const ErrorHandler = require("../utils/errorHandler");
+const { sendEmail } = require("../utils/sendEmail");
 const sendTokenAsCookie = require("../utils/sendTokenAsCookie");
 
 exports.signUp = catchAsync(async (req, res, next) => {
@@ -34,4 +36,35 @@ exports.signOut = catchAsync(async (req, res, next) => {
     success: true,
     message: "Successfully signed out",
   });
+});
+
+exports.forgotPassword = catchAsync(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+  if (!user)
+    return next(new ErrorHandler("No user found with this email", 404));
+
+  const resetToken = user.getResetPasswordToken();
+  await user.save();
+
+  const resetUrl = `${process.env.CLIENT_URL}/api/users/password/reset/${resetToken}`;
+
+  const message = getResetPasswordTemplate(user, resetUrl);
+
+  await sendEmail({
+    email: user.email,
+    subject: "EShop Password Recovery",
+    message,
+  })
+    .then(() => {
+      res.status(200).json({
+        success: true,
+        message: `Email sent to ${user.email}`,
+      });
+    })
+    .catch(async (err) => {
+      user.resetPasswordToken = undefined;
+      user.resetPasswordTokenExpires = undefined;
+      await user.save();
+      return next(new ErrorHandler(err?.message, 500));
+    });
 });
