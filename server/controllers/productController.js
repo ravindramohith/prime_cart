@@ -25,3 +25,17 @@ exports.getAllProducts = async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 };
+
+exports.getProduct = async (req, res) => {
+  try {
+    console.log(req.params.id);
+    const product = await Product.findById(req.params.id);
+    res.status(200).json({
+      success: true,
+      message: "Product fetched successfully",
+      data: product,
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
