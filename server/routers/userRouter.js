@@ -11,6 +11,7 @@ const {
   updateCurrentUser,
   getAllUsers,
   getUser,
+  updateUser,
 } = require("../controllers/userController");
 const { checkAuth, authorizedRoles } = require("../middlewares/auth");
 
@@ -23,7 +24,7 @@ router.route("/signout").get(signOut);
 router.route("/password/forgot").post(forgotPassword);
 router.route("/password/reset/:token").put(resetPassword);
 
-//Current user routes
+// Current user routes
 router
   .route("/me")
   .get(checkAuth, getCurrentUser)
@@ -32,6 +33,9 @@ router.route("/me/updatePassword").put(checkAuth, updatePassword);
 
 // Admin routes
 router.route("/").get(checkAuth, authorizedRoles("admin"), getAllUsers);
-router.route("/:id").get(checkAuth, authorizedRoles("admin"), getUser);
+router
+  .route("/:id")
+  .get(checkAuth, authorizedRoles("admin"), getUser)
+  .put(checkAuth, authorizedRoles("admin"), updateUser);
 
 module.exports = router;

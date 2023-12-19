@@ -70,3 +70,21 @@ exports.getUser = catchAsync(async (req, res, next) => {
     data: user,
   });
 });
+
+exports.updateUser = catchAsync(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(
+    req.params.id,
+    {
+      name: req.body.name,
+      email: req.body.email,
+      role: req.body.role,
+    },
+    { new: true }
+  );
+
+  res.status(200).json({
+    success: true,
+    message: "User updated successfully",
+    data: user,
+  });
+});
