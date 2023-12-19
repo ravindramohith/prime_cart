@@ -8,6 +8,11 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
   dotenv.config({ path: "server/config.env" });
 }
 
+// body parser
+app.use(express.json());
+
+// Routers
+app.use("/api/products", require("./routers/productRouter"));
 mongoose
   .connect(process.env.MONGODB_URI)
   .then((connection) =>
