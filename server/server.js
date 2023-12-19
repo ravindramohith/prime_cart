@@ -1,6 +1,13 @@
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 
+// An "uncaught error" in JavaScript refers to an error that occurs during the execution of a script, but there is no surrounding try-catch block or error-handling mechanism to handle the error.
+process.on("uncaughtException", (err) => {
+  console.log("UNCAUGHT EXCEPTION! 💥 Shutting down...");
+  console.log(err.name, err.message);
+  process.exit(1);
+});
+
 if (process.env.NODE_ENV !== "PRODUCTION") {
   dotenv.config({ path: "server/config.env" });
 }
