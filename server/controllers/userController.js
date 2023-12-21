@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const APIFactory = require("../utils/apiFactory");
 const catchAsync = require("../utils/catchAsync");
+const { uploadFile } = require("../utils/cloudinary");
 const ErrorHandler = require("../utils/errorHandler");
 
 const ITEMS_PER_PAGE = 10;
@@ -94,5 +95,19 @@ exports.deleteUser = catchAsync(async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: "User deleted successfully",
+  });
+});
+
+exports.uploadAvatar = catchAsync(async (req, res, next) => {
+  const response = await uploadFile(req.body.avatar, "eshop/avatars");
+
+  const user = await User.findByIdAndUpdate(req.user?._id, {
+    avatar: response,
+  });
+
+  res.status(200).json({
+    success: true,
+    message: "Avatar Uploaded Successfully",
+    data: user,
   });
 });

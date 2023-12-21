@@ -30,7 +30,19 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["getCurrentUser"], // fire the functions which have tags which are provided in the array just after finishing this endpoint
     }),
+    uploadAvatar: builder.mutation({
+      query: (body) => ({
+        url: "/users/me/uploadAvatar",
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: ["getCurrentUser"], // fire the functions which have tags which are provided in the array just after finishing this endpoint
+    }),
   }),
 });
 
-export const { useGetCurrentUserQuery, useUpdateUserMutation } = userApi;
+export const {
+  useGetCurrentUserQuery,
+  useUpdateUserMutation,
+  useUploadAvatarMutation,
+} = userApi;

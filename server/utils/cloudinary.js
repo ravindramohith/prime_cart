@@ -13,12 +13,11 @@ exports.uploadFile = (file, folder) => {
   return new Promise((resolve, reject) => {
     cloudinary.uploader.upload(
       file,
-      (error, result) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve({ public_id: result.public_id, url: result.url });
-        }
+      (result) => {
+        resolve({
+          public_id: result.public_id,
+          url: result.url,
+        });
       },
       {
         resource_type: "auto",

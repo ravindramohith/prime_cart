@@ -19,7 +19,7 @@ const UpdateProfile = () => {
             setName(user.name);
             setEmail(user.email);
         }
-        if (error) toast.error(error.message);
+        if (error) toast.error(error?.data?.message)
         if (isSuccess) { toast.success(data?.message || "Profile Updated Successfully"); navigate("/me/profile") }
     }, [error, user, isSuccess])
 

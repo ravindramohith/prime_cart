@@ -13,6 +13,7 @@ const {
   getUser,
   updateUser,
   deleteUser,
+  uploadAvatar,
 } = require("../controllers/userController");
 const { checkAuth, authorizedRoles } = require("../middlewares/auth");
 
@@ -30,6 +31,7 @@ router
   .route("/me")
   .get(checkAuth, getCurrentUser)
   .put(checkAuth, updateCurrentUser);
+router.route("/me/uploadAvatar").put(checkAuth, uploadAvatar);
 router.route("/me/updatePassword").put(checkAuth, updatePassword);
 
 // Admin routes
