@@ -4,6 +4,7 @@ import { setIsAuthenticated, setUser } from "../features/userSlice";
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
+  tagTypes: ["getCurrentUser"], // declare tags
   endpoints: (builder) => ({
     getCurrentUser: builder.query({
       query: () => `/users/me`,
@@ -17,8 +18,17 @@ export const userApi = createApi({
           console.log(e);
         }
       },
+      providesTags: ["getCurrentUser"], // give this endpoint a tag
+    }),
+    updateUser: builder.mutation({
+      query: (body) => ({
+        url: "/users/me",
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: ["getCurrentUser"], // fire the functions which have tags which are provided in the array just after finishing this endpoint
     }),
   }),
 });
 
-export const { useGetCurrentUserQuery } = userApi;
+export const { useGetCurrentUserQuery, useUpdateUserMutation } = userApi;
