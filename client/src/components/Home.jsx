@@ -3,9 +3,15 @@ import MetaData from './layout/MetaData'
 import { useGetProductsQuery } from '../redux/api/product'
 import ProductItem from './product/ProductItem'
 import Loader from './layout/Loader'
+import toast from 'react-hot-toast'
 
 const Home = () => {
-    const { data, isLoading } = useGetProductsQuery();
+    const { data, isLoading, error, isError } = useGetProductsQuery();
+    React.useEffect(() => {
+        if (isError) {
+            toast.error(error?.data?.message)
+        }
+    }, [isError])
     return (
         isLoading ? <Loader /> :
             <>
