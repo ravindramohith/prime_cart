@@ -10,3 +10,5 @@ export const CATEGORIES = [
   "Outdoor",
   "Home",
 ];
+
+export const RATINGS = [5, 4, 3, 2, 1];
