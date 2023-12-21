@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { userApi } from "./user";
 
 export const authApi = createApi({
   reducerPath: "authApi",
@@ -10,6 +11,14 @@ export const authApi = createApi({
         method: "POST",
         body,
       }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(userApi.endpoints.getCurrentUser.initiate(null));
+        } catch (e) {
+          console.log(e);
+        }
+      },
     }),
     register: builder.mutation({
       query: (body) => ({
@@ -17,6 +26,14 @@ export const authApi = createApi({
         method: "POST",
         body,
       }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(userApi.endpoints.getCurrentUser.initiate(null));
+        } catch (e) {
+          console.log(e);
+        }
+      },
     }),
   }),
 });

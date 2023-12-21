@@ -1,7 +1,10 @@
 import React from 'react'
 import Search from '../filter/Search'
+import { useGetCurrentUserQuery } from '../../redux/api/user'
 
 const Header = () => {
+  const { data } = useGetCurrentUserQuery();
+  console.log(data)
   return (
     <nav className="navbar row">
       <div className="col-12 col-md-3 ps-5">
