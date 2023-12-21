@@ -20,7 +20,7 @@ module.exports = class APIFactory {
   filter() {
     const queryObject = { ...this.queryString };
 
-    const fieldsToExclude = ["keyword", "page"];
+    const fieldsToExclude = ["keyword", "page", "itemsPerPage"];
     fieldsToExclude.forEach((field) => delete queryObject[field]);
 
     let queryString = JSON.stringify(queryObject);
