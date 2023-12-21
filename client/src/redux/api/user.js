@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setIsAuthenticated, setUser } from "../features/userSlice";
+import { setIsAuthenticated, setLoading, setUser } from "../features/userSlice";
 
 export const userApi = createApi({
   reducerPath: "userApi",
@@ -14,7 +14,9 @@ export const userApi = createApi({
           const { data } = await queryFulfilled; // queryFulfilled is the return value of transformResponse.. So in this case, data = responseData.data(i.e, user)
           dispatch(setUser(data));
           dispatch(setIsAuthenticated(true));
+          dispatch(setLoading(false));
         } catch (e) {
+          dispatch(setLoading(false));
           console.log(e);
         }
       },
