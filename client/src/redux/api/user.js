@@ -38,6 +38,13 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["getCurrentUser"], // fire the functions which have tags which are provided in the array just after finishing this endpoint
     }),
+    updatePassword: builder.mutation({
+      query: (body) => ({
+        url: "/users/me/updatePassword",
+        method: "PUT",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -45,4 +52,5 @@ export const {
   useGetCurrentUserQuery,
   useUpdateUserMutation,
   useUploadAvatarMutation,
+  useUpdatePasswordMutation,
 } = userApi;
