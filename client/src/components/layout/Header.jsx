@@ -2,10 +2,13 @@ import React from 'react'
 import Search from '../filter/Search'
 import { useGetCurrentUserQuery } from '../../redux/api/user'
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useLazyLogoutQuery } from '../../redux/api/auth';
 
 const Header = () => {
-  const { data, isLoading } = useGetCurrentUserQuery();
+  const navigate = useNavigate();
+  const currentUserData = useGetCurrentUserQuery();
+  const [logout, logoutData] = useLazyLogoutQuery();
   const { user } = useSelector(state => state.auth)
   return (
     <nav className="navbar row">
@@ -49,10 +52,10 @@ const Header = () => {
 
               <Link className="dropdown-item" to="/me/profile"> Profile </Link>
 
-              <Link className="dropdown-item text-danger" to="/"> Logout </Link>
+              <Link className="dropdown-item text-danger" to="/" onClick={e => { logout(); navigate(0); }}> Logout </Link>
             </div>
           </div>
-        ) : !isLoading && <a href="/login" className="btn ms-4" id="login_btn"> Login </a>}
+        ) : !currentUserData?.isLoading && <a href="/login" className="btn ms-4" id="login_btn"> Login </a>}
       </div>
     </nav >
   )

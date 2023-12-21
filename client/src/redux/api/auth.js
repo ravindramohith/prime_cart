@@ -35,7 +35,14 @@ export const authApi = createApi({
         }
       },
     }),
+    logout: builder.query({
+      query: () => `/users/signout`,
+    }),
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation } = authApi;
+export const {
+  useLoginMutation,
+  useRegisterMutation,
+  useLazyLogoutQuery /* Lazy because we need to execute this query conditionally (eg: while clicking a button) */,
+} = authApi;

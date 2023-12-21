@@ -1,23 +1,29 @@
 import React from 'react'
 import { useRegisterMutation } from '../../redux/api/auth';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Register = () => {
-    const [name, setName] = React.useState("")
+    const navigate = useNavigate();
+
     const [email, setEmail] = React.useState("")
     const [password, setPassword] = React.useState("")
+    const [name, setName] = React.useState("")
 
     const [register, { data, error, isError, isLoading }] = useRegisterMutation();
+    const { isAuthenticated } = useSelector(state => state.auth)
 
     const submitForm = (e) => {
         e.preventDefault();
-        register({ name, email, password });
+        register({ email, password, name });
     }
 
     React.useEffect(() => {
         if (isError)
             toast.error(error?.data?.message)
-    }, [isError])
+        if (isAuthenticated) navigate("/");
+    }, [isError, isAuthenticated])
     return (
         <div className="row wrapper">
             <div className="col-10 col-lg-5">
