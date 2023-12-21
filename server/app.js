@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 
 // body parser
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
 
 //cookie parser
 app.use(cookieParser());
