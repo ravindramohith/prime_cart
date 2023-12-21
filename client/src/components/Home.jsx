@@ -14,8 +14,9 @@ const Home = () => {
     const keyword = searchParams.get('keyword') ? searchParams.get('keyword') : undefined
     const min = searchParams.get('min') ? searchParams.get('min') : undefined
     const max = searchParams.get('max') ? searchParams.get('max') : undefined
+    const category = searchParams.get('category') ? searchParams.get('category') : undefined
 
-    const { data, isLoading, error, isError } = useGetProductsQuery({ page, itemsPerPage: 4, keyword, min, max });
+    const { data, isLoading, error, isError } = useGetProductsQuery({ page, itemsPerPage: 4, keyword, min, max, category });
     React.useEffect(() => {
         if (isError)
             toast.error(error?.data?.message)

@@ -9,10 +9,11 @@ export const productApi = createApi({
         url: `/products`,
         params: {
           page: params?.page,
-          itemsPerPage: params?.itemsPerPage,
+          itemsPerPage: params?.keyword ? 3 : params?.itemsPerPage,
           keyword: params?.keyword,
           "price[gte]": params?.min,
           "price[lte]": params?.max,
+          category: params?.category,
         },
       }),
     }),
