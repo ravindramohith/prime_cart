@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import StarRatings from 'react-star-ratings';
 
 const ProductItem = ({ product, columnSize }) => {
-    console.log(product)
     return (
         <div className={`col-sm-12 col-md-6 col-lg-${columnSize} my-3`}>
             <div className="card p-3 rounded">

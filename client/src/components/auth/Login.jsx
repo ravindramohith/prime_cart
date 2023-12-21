@@ -59,7 +59,7 @@ const Login = () => {
                     </button>
 
                     <div className="my-3">
-                        <Link to="/register" href="/register" className="float-end">New User?</Link>
+                        <a href="/register" className="float-end">New User?</a>
                     </div>
                 </form>
             </div>
