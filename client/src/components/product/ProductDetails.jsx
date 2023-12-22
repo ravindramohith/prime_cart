@@ -4,9 +4,13 @@ import { useGetProductQuery } from '../../redux/api/product';
 import StarRatings from 'react-star-ratings';
 import Loader from '../layout/Loader';
 import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { setCartItem } from '../../redux/features/cartSlice';
 
 const ProductDetails = () => {
     const params = useParams();
+    const dispatch = useDispatch();
+
     const { data, isLoading, error, isError } = useGetProductQuery(params);
     const product = data?.data
     React.useEffect(() => {
@@ -20,6 +24,19 @@ const ProductDetails = () => {
     React.useEffect(() => {
         setActiveImage(product?.images[0]?.url ? product?.images[0]?.url : "/images/default_product.png")
     }, [product])
+
+    const [quantity, setQuantity] = React.useState(1)
+    const addItemToCard = () => {
+        dispatch(setCartItem({
+            product: product?._id,
+            name: product?.name,
+            price: product?.price,
+            image: product?.images[0]?.url ? product?.images[0]?.url : "/images/default_product.png",
+            stock: product?.stock,
+        }))
+
+        toast.success("Item added to cart")
+    }
     return (
         isLoading ? <Loader /> :
             <div className="row d-flex justify-content-around">
@@ -72,20 +89,29 @@ const ProductDetails = () => {
 
                     <p id="product_price">Rs.{product?.price}</p>
                     <div className="stockCounter d-inline">
-                        <span className="btn btn-danger minus">-</span>
+                        <span className="btn btn-danger minus" onClick={e => {
+                            const count = document.querySelector('.count')
+                            if (count.valueAsNumber <= 1) return
+                            else setQuantity(count.valueAsNumber - 1);
+                        }}>-</span>
                         <input
                             type="number"
                             className="form-control count d-inline"
-                            value="1"
+                            value={quantity}
                             readonly
                         />
-                        <span className="btn btn-primary plus">+</span>
+                        <span className="btn btn-primary plus" onClick={e => {
+                            const count = document.querySelector('.count')
+                            if (count.valueAsNumber >= product.stock) return
+                            else setQuantity(count.valueAsNumber + 1);
+                        }}>+</span>
                     </div>
                     <button
                         type="button"
                         id="cart_btn"
                         className="btn btn-primary d-inline ms-4"
-                        disabled=""
+                        disabled={product?.stock <= 0}
+                        onClick={addItemToCard}
                     >
                         Add to Cart
                     </button>
