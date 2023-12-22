@@ -2,7 +2,7 @@ import React from 'react'
 import MetaData from '../layout/MetaData'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { setCartItem } from '../../redux/features/cartSlice'
+import { removeCartItem, setCartItem } from '../../redux/features/cartSlice'
 import toast from 'react-hot-toast'
 
 const Cart = () => {
@@ -19,6 +19,10 @@ const Cart = () => {
             quantity,
         }))
         // toast.success("Item added to cart")
+    }
+
+    const removeItemFromCart = (id) => {
+        dispatch(removeCartItem(id));
     }
 
     return (
@@ -47,7 +51,7 @@ const Cart = () => {
                                                 <Link to={`/product/${item?.product}`}> {item?.name}</Link>
                                             </div>
                                             <div className="col-4 col-lg-2 mt-4 mt-lg-0">
-                                                <p id="card_item_price">Rs.{item?.price}</p>
+                                                <p id="card_item_price">Rs.{item?.price * (item?.quantity || 1)}</p>
                                             </div>
                                             <div className="col-4 col-lg-3 mt-4 mt-lg-0">
                                                 <div className="stockCounter d-inline">
@@ -70,7 +74,7 @@ const Cart = () => {
                                                 </div>
                                             </div>
                                             <div className="col-4 col-lg-1 mt-4 mt-lg-0">
-                                                <i id="delete_cart_item" className="fa fa-trash btn btn-danger"></i>
+                                                <i id="delete_cart_item" className="fa fa-trash btn btn-danger" onClick={e => removeItemFromCart(item?.product)}></i>
                                             </div>
                                         </div>
                                     </div>
