@@ -16,11 +16,11 @@ const Shipping = () => {
     const [city, setCity] = React.useState(shippingInfo?.city || "")
     const [zipCode, setZipCode] = React.useState(shippingInfo?.zipCode || "")
     const [country, setCountry] = React.useState(shippingInfo?.country || "")
-    const [phone, setPhone] = React.useState(shippingInfo?.phone || "")
+    const [phone, setPhone] = React.useState(shippingInfo?.phoneNumber || "")
 
     const submitForm = (e) => {
         e.preventDefault();
-        dispatch(saveShippingInfo({ address, city, phone, zipCode, country }));
+        dispatch(saveShippingInfo({ address, city, phoneNumber: phone, zipCode, country }));
         navigate("/confirm_order")
     }
 
