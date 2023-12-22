@@ -1,8 +1,7 @@
 import React from 'react'
 import { useLoginMutation } from '../../redux/api/auth'
-import Loader from '../layout/Loader'
 import toast from 'react-hot-toast'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 const Login = () => {

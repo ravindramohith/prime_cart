@@ -45,6 +45,13 @@ export const userApi = createApi({
         body,
       }),
     }),
+    forgotPassword: builder.mutation({
+      query: (body) => ({
+        url: "/users/password/forgot",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -53,4 +60,5 @@ export const {
   useUpdateUserMutation,
   useUploadAvatarMutation,
   useUpdatePasswordMutation,
+  useForgotPasswordMutation,
 } = userApi;

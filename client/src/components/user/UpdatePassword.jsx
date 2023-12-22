@@ -3,7 +3,6 @@ import UserLayout from './UserLayout'
 import { useUpdatePasswordMutation } from '../../redux/api/user'
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 const UpdatePassword = () => {
     const navigate = useNavigate();

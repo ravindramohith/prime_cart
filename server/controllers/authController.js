@@ -64,7 +64,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     })
     .catch(async (err) => {
       user.resetPasswordToken = undefined;
-      user.resetPasswordTokenExpires = undefined;
+      user.resetPasswordTokenExpires = Date.now();
       await user.save();
       return next(new ErrorHandler(err?.message, 500));
     });
