@@ -3,9 +3,11 @@ import MetaData from '../layout/MetaData'
 import { countries } from 'countries-list'
 import { useDispatch, useSelector } from 'react-redux'
 import { saveShippingInfo } from '../../redux/features/cartSlice'
+import { useNavigate } from 'react-router-dom'
 
 const Shipping = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const countriesList = Object.values(countries)
     const { shippingInfo } = useSelector(state => state.cart);
 
@@ -17,7 +19,8 @@ const Shipping = () => {
 
     const submitForm = (e) => {
         e.preventDefault();
-        dispatch(saveShippingInfo({ address, city, phone, zipCode, country }))
+        dispatch(saveShippingInfo({ address, city, phone, zipCode, country }));
+        navigate("/confirm_order")
     }
 
     return (
