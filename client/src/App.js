@@ -16,6 +16,7 @@ import UploadAvatar from "./components/user/UploadAvatar";
 import UpdatePassword from "./components/user/UpdatePassword";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
+import Cart from "./components/cart/Cart";
 function App() {
   return (
     <Router>
@@ -63,6 +64,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/cart" element={<Cart />} />
           </Routes>
         </div>
 

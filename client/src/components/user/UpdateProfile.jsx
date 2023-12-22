@@ -4,6 +4,7 @@ import { useUpdateUserMutation } from '../../redux/api/user';
 import { useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import UserLayout from './UserLayout';
+import MetaData from '../layout/MetaData';
 
 const UpdateProfile = () => {
     const navigate = useNavigate();
@@ -29,6 +30,7 @@ const UpdateProfile = () => {
     }
     return (
         <UserLayout>
+            <MetaData title={"Update Your Profile"} />
             <div className="row wrapper">
                 <div className="col-10 col-lg-8">
                     <form
