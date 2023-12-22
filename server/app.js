@@ -17,6 +17,7 @@ app.use("/api/products", require("./routers/productRouter"));
 app.use("/api/users", require("./routers/userRouter"));
 app.use("/api/orders", require("./routers/orderRouter"));
 app.use("/api/reviews", require("./routers/reviewRouter"));
+app.use("/api/payments", require("./routers/paymentRouter"));
 
 //Error Handler Middleware
 app.use(require("./middlewares/error"));
