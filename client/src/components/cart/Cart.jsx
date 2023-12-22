@@ -1,11 +1,12 @@
 import React from 'react'
 import MetaData from '../layout/MetaData'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { removeCartItem, setCartItem } from '../../redux/features/cartSlice'
 
 const Cart = () => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { cartItems } = useSelector(state => state.cart)
 
     const setItemToCart = (item, quantity) => {
@@ -22,6 +23,10 @@ const Cart = () => {
 
     const removeItemFromCart = (id) => {
         dispatch(removeCartItem(id));
+    }
+
+    const checkout = () => {
+        navigate("/shipping")
     }
 
     return (
@@ -91,7 +96,7 @@ const Cart = () => {
                                 <p>Subtotal: <span className="order-summary-values">{cartItems?.reduce((acc, item) => acc + item?.quantity, 0)} (Product{cartItems?.reduce((acc, item) => acc + item?.quantity, 0) <= 1 ? "" : "s"})</span></p>
                                 <p>Est. total: <span className="order-summary-values">Rs.{cartItems?.reduce((acc, item) => acc + item?.price * item?.quantity, 0).toFixed(2)}</span></p>
                                 <hr />
-                                <button id="checkout_btn" className="btn btn-primary w-100">
+                                <button id="checkout_btn" className="btn btn-primary w-100" onClick={checkout}>
                                     Check out
                                 </button>
                             </div>
