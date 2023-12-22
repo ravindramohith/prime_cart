@@ -3,7 +3,6 @@ import MetaData from '../layout/MetaData'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { removeCartItem, setCartItem } from '../../redux/features/cartSlice'
-import toast from 'react-hot-toast'
 
 const Cart = () => {
     const dispatch = useDispatch()
@@ -55,7 +54,7 @@ const Cart = () => {
                                             </div>
                                             <div className="col-4 col-lg-3 mt-4 mt-lg-0">
                                                 <div className="stockCounter d-inline">
-                                                    <span className="btn btn-danger minus" onClick={e => {
+                                                    <span className={`btn btn-danger minus ${item?.quantity - 1 < 1 && "disabled"}`} onClick={e => {
                                                         const newQuantity = item?.quantity - 1
                                                         if (newQuantity < 1) return
                                                         else setItemToCart(item, newQuantity);
@@ -66,7 +65,7 @@ const Cart = () => {
                                                         value={item?.quantity}
                                                         readonly
                                                     />
-                                                    <span className="btn btn-primary plus" onClick={e => {
+                                                    <span className={`btn btn-primary plus ${item?.quantity + 1 > item?.stock && "disabled"}`} onClick={e => {
                                                         const newQuantity = item?.quantity + 1
                                                         if (newQuantity > item?.stock) return
                                                         else setItemToCart(item, newQuantity);
@@ -89,8 +88,8 @@ const Cart = () => {
                             <div id="order_summary">
                                 <h4>Order Summary</h4>
                                 <hr />
-                                <p>Subtotal: <span className="order-summary-values">8 (Units)</span></p>
-                                <p>Est. total: <span className="order-summary-values">$1499.97</span></p>
+                                <p>Subtotal: <span className="order-summary-values">{cartItems?.reduce((acc, item) => acc + item?.quantity, 0)} (Product{cartItems?.reduce((acc, item) => acc + item?.quantity, 0) <= 1 ? "" : "s"})</span></p>
+                                <p>Est. total: <span className="order-summary-values">Rs.{cartItems?.reduce((acc, item) => acc + item?.price * item?.quantity, 0).toFixed(2)}</span></p>
                                 <hr />
                                 <button id="checkout_btn" className="btn btn-primary w-100">
                                     Check out

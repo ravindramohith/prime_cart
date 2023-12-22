@@ -97,7 +97,7 @@ const ProductDetails = () => {
 
                         <p id="product_price">Rs.{product?.price}</p>
                         <div className="stockCounter d-inline">
-                            <span className="btn btn-danger minus" onClick={e => {
+                            <span className={`btn btn-danger minus ${quantity <= 1 && "disabled"}`} onClick={e => {
                                 const count = document.querySelector('.count')
                                 if (count.valueAsNumber <= 1) return
                                 else setQuantity(count.valueAsNumber - 1);
@@ -108,9 +108,9 @@ const ProductDetails = () => {
                                 value={quantity}
                                 readonly
                             />
-                            <span className="btn btn-primary plus" onClick={e => {
+                            <span className={`btn btn-primary plus ${quantity >= product?.stock && "disabled"}`} onClick={e => {
                                 const count = document.querySelector('.count')
-                                if (count.valueAsNumber >= product.stock) return
+                                if (count.valueAsNumber >= product?.stock) return
                                 else setQuantity(count.valueAsNumber + 1);
                             }}>+</span>
                         </div>
@@ -127,7 +127,7 @@ const ProductDetails = () => {
                         <hr />
 
                         <p>
-                            Status: <span id="stock_status" className={product?.stock > 0 ? "greenColor" : "redColor"}>{product?.stock > 0 ? "In Stock" : "Out of Stock"}</span>
+                            Status: <span id="stock_status" className={product?.stock > 0 ? "greenColor" : "redColor"}>{product?.stock > 0 ? product?.stock <= 5 ? `In Stock (Only ${product?.stock} left)` : "In Stock" : "Out of Stock"}</span>
                         </p>
 
                         <hr />
