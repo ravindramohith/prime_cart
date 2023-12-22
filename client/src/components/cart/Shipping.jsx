@@ -4,6 +4,7 @@ import { countries } from 'countries-list'
 import { useDispatch, useSelector } from 'react-redux'
 import { saveShippingInfo } from '../../redux/features/cartSlice'
 import { useNavigate } from 'react-router-dom'
+import CheckoutSteps from './CheckoutSteps'
 
 const Shipping = () => {
     const dispatch = useDispatch();
@@ -26,6 +27,7 @@ const Shipping = () => {
     return (
         <>
             <MetaData title={"Shipping Info"} />
+            <CheckoutSteps shipping />
             <div class="row wrapper mb-5">
                 <div class="col-10 col-lg-5">
                     <form

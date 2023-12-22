@@ -3,6 +3,7 @@ import MetaData from '../layout/MetaData'
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { calculateTotalOrderCost } from '../../helpers/helpers';
+import CheckoutSteps from './CheckoutSteps';
 
 const ConfirmOrder = () => {
     const { cartItems, shippingInfo } = useSelector(state => state.cart);
@@ -13,6 +14,7 @@ const ConfirmOrder = () => {
     return (
         <>
             <MetaData title={"Order Confirmation"} />
+            <CheckoutSteps shipping confirmOrder />
             <div class="row d-flex justify-content-between">
                 <div class="col-12 col-lg-8 mt-5 order-confirm">
                     <h4 class="mb-3">Shipping Info</h4>
@@ -67,7 +69,7 @@ const ConfirmOrder = () => {
                         <p>Total: <span class="order-summary-values">Rs.{totalPrice}</span></p>
 
                         <hr />
-                        <Link to="/payment" id="checkout_btn" class="btn btn-primary w-100">
+                        <Link to="/payment_method" id="checkout_btn" class="btn btn-primary w-100">
                             Proceed to Payment
                         </Link>
                     </div>

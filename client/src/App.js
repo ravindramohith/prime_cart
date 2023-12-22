@@ -83,6 +83,14 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/payment_method"
+              element={
+                <ProtectedRoute>
+                  <ConfirmOrder />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </div>
 
