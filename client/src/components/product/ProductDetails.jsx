@@ -4,7 +4,7 @@ import { useGetProductQuery } from '../../redux/api/product';
 import StarRatings from 'react-star-ratings';
 import Loader from '../layout/Loader';
 import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCartItem } from '../../redux/features/cartSlice';
 import MetaData from '../layout/MetaData';
 
@@ -13,6 +13,7 @@ const ProductDetails = () => {
     const dispatch = useDispatch();
 
     const { data, isLoading, error, isError } = useGetProductQuery(params);
+    const { cartItems } = useSelector(state => state.cart);
     const product = data?.data
     React.useEffect(() => {
         if (isError) {
@@ -26,8 +27,11 @@ const ProductDetails = () => {
         setActiveImage(product?.images[0]?.url ? product?.images[0]?.url : "/images/default_product.png")
     }, [product])
 
-    const [quantity, setQuantity] = React.useState(1)
-    const addItemToCard = () => {
+    const [quantity, setQuantity] = React.useState(cartItems?.find((i) => i.product === product?._id)?.quantity || 1)
+    React.useEffect(() => {
+        setQuantity(cartItems?.find((i) => i.product === product?._id)?.quantity || 1);
+    }, [cartItems, product])
+    const addItemToCart = (message) => {
         dispatch(setCartItem({
             product: product?._id,
             name: product?.name,
@@ -37,7 +41,7 @@ const ProductDetails = () => {
             quantity,
         }))
 
-        toast.success("Item added to cart")
+        toast.success(message)
     }
     return (
         isLoading ? <Loader /> :
@@ -114,10 +118,10 @@ const ProductDetails = () => {
                             type="button"
                             id="cart_btn"
                             className="btn btn-primary d-inline ms-4"
-                            disabled={product?.stock <= 0}
-                            onClick={addItemToCard}
+                            disabled={product?.stock <= 0 || cartItems?.find((i) => i.product === product?._id)?.quantity === quantity}
+                            onClick={e => addItemToCart(cartItems?.find((i) => i.product === product?._id) ? "Item Updated in Your Cart" : "Item added to cart")}
                         >
-                            Add to Cart
+                            {cartItems?.find((i) => i.product === product?._id) ? "Update Cart" : "Add to Cart"}
                         </button>
 
                         <hr />

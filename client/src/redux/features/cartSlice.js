@@ -11,11 +11,17 @@ export const cartSlice = createSlice({
     setCartItem: (state, action) => {
       const item = action.payload;
 
-      if (state.cartItems.find((i) => i.product === item.product))
-        state.cartItems.map((oldItem) =>
-          oldItem.product === item.product ? item : oldItem
+      const isItemExist = state.cartItems.find(
+        (i) => i.product === item.product
+      );
+
+      if (isItemExist) {
+        state.cartItems = state.cartItems.map((i) =>
+          i.product === isItemExist.product ? item : i
         );
-      else state.cartItems = [...state.cartItems, item];
+      } else {
+        state.cartItems = [...state.cartItems, item];
+      }
 
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },

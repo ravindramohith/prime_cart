@@ -1,10 +1,25 @@
 import React from 'react'
 import MetaData from '../layout/MetaData'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { setCartItem } from '../../redux/features/cartSlice'
+import toast from 'react-hot-toast'
 
 const Cart = () => {
+    const dispatch = useDispatch()
     const { cartItems } = useSelector(state => state.cart)
+
+    const setItemToCart = (item, quantity) => {
+        dispatch(setCartItem({
+            product: item?.product,
+            name: item?.name,
+            price: item?.price,
+            image: item?.image ? item?.image : "/images/default_product.png",
+            stock: item?.stock,
+            quantity,
+        }))
+        // toast.success("Item added to cart")
+    }
 
     return (
         <>
@@ -36,14 +51,22 @@ const Cart = () => {
                                             </div>
                                             <div className="col-4 col-lg-3 mt-4 mt-lg-0">
                                                 <div className="stockCounter d-inline">
-                                                    <span className="btn btn-danger minus"> - </span>
+                                                    <span className="btn btn-danger minus" onClick={e => {
+                                                        const newQuantity = item?.quantity - 1
+                                                        if (newQuantity < 1) return
+                                                        else setItemToCart(item, newQuantity);
+                                                    }}> - </span>
                                                     <input
                                                         type="number"
                                                         className="form-control count d-inline"
                                                         value={item?.quantity}
                                                         readonly
                                                     />
-                                                    <span className="btn btn-primary plus"> + </span>
+                                                    <span className="btn btn-primary plus" onClick={e => {
+                                                        const newQuantity = item?.quantity + 1
+                                                        if (newQuantity > item?.stock) return
+                                                        else setItemToCart(item, newQuantity);
+                                                    }}> + </span>
                                                 </div>
                                             </div>
                                             <div className="col-4 col-lg-1 mt-4 mt-lg-0">
