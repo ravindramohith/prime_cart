@@ -3,7 +3,7 @@ import CheckoutSteps from './CheckoutSteps'
 import MetaData from '../layout/MetaData'
 import { useSelector } from 'react-redux';
 import { calculateTotalOrderCost } from '../../helpers/helpers';
-import { useCreateOrderMutation } from '../../redux/api/order';
+import { useCreateOrderMutation, useStripeCheckoutSessionMutation } from '../../redux/api/order';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,7 +12,8 @@ const PaymentMethods = () => {
 
     const [method, setMethod] = React.useState("");
     const { shippingInfo, cartItems } = useSelector(state => state.cart);
-    const [placeOrder, { isLoading, error, isSuccess, data }] = useCreateOrderMutation();
+    const [placeOrder, { error, isSuccess, data }] = useCreateOrderMutation();
+    const [stripeCheckoutSession, { data: stripeCheckoutSessionData, error: stripeCheckoutSessionError, isLoading }] = useStripeCheckoutSessionMutation();
 
     React.useEffect(() => {
         if (isSuccess) {
@@ -40,7 +41,24 @@ const PaymentMethods = () => {
                 paymentInfo: { status: "Not paid" },
                 paymentMethod: "Cash"
             });
+
+        else if (method === "Card") {
+            console.log(method); stripeCheckoutSession({
+                shipping: shippingInfo,
+                orderItems: cartItems,
+                itemsPrice,
+                shippingAmount: shippingPrice,
+                tax: taxPrice,
+                totalAmount: totalPrice,
+            })
+        }
     }
+
+    React.useEffect(() => {
+        if (stripeCheckoutSessionData) {
+            window.location.href = stripeCheckoutSessionData?.url;
+        }
+    }, [stripeCheckoutSessionData])
     return (
         <>
             <MetaData title={"Payment Methods"} />
@@ -62,7 +80,7 @@ const PaymentMethods = () => {
                                 value="Cash"
                                 onChange={e => setMethod("Cash")}
                             />
-                            <label className="form-check-label" for="codradio">
+                            <label className="form-check-label" htmlFor="codradio">
                                 Cash on Delivery
                             </label>
                         </div>
@@ -75,13 +93,13 @@ const PaymentMethods = () => {
                                 value="Card"
                                 onChange={e => setMethod("Card")}
                             />
-                            <label className="form-check-label" for="cardradio">
+                            <label className="form-check-label" htmlFor="cardradio">
                                 Card - VISA, MasterCard
                             </label>
                         </div>
 
-                        <button id="shipping_btn" type="submit" className="btn py-2 w-100">
-                            CONTINUE
+                        <button id="shipping_btn" type="submit" className="btn py-2 w-100" disabled={isLoading}>
+                            {isLoading ? "Redirecting to payment page..." : "CONTINUE"}
                         </button>
                     </form>
                 </div>

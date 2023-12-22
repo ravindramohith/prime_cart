@@ -14,24 +14,25 @@ exports.stripeCheckoutSession = catchAsync(async (req, res, next) => {
         },
         unit_amount: item?.price * 100,
       },
-      taxRates: [process.env.STRIPE_TAX_KEY],
+      tax_rates: [process.env.STRIPE_TAX_KEY],
       quantity: item?.quantity,
     };
   });
+  const shippingInfo = req.body.shipping;
   const shipping_rate =
     req.body?.itemsPrice >= 9000
       ? process.env.STRIPE_FREE_SHIPPING_KEY // free shipping
       : process.env.STRIPE_SHIPPING_CHARGE_KEY; // charged shipping
-  const session = await stripe.checkout.session.create({
+  const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     line_items,
     mode: "payment",
+    metadata: { ...shippingInfo, itemsPrice: req.body.itemsPrice },
     success_url: `${process.env.CLIENT_URL}/me/orders`,
     cancel_url: `${process.env.CLIENT_URL}`,
     customer_email: req.user.email,
     client_reference_id: req.user._id.toString(),
     shipping_options: [{ shipping_rate }],
-    customer_name: req.user.name,
   });
 
   console.log(session);
