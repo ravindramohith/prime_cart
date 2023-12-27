@@ -5,11 +5,24 @@ import { useParams } from 'react-router-dom';
 import { useGetOrderQuery } from '../../redux/api/order';
 import toast from 'react-hot-toast';
 import Loader from '../layout/Loader';
+import html2Canvas from 'html2canvas';
+import { jsPDF } from 'jspdf'
 
 const Invoice = () => {
     const params = useParams();
 
     const { data, isLoading, error } = useGetOrderQuery(params?.id);
+
+    const download = () => {
+        const input = document.getElementById("order_invoice");
+        html2Canvas(input).then((canvas) => {
+            const img = canvas.toDataURL("image/png");
+            const pdf = new jsPDF();
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            pdf.addImage(img, "PNG", 0, 0, pdfWidth, 0);
+            pdf.save(`invoice_${data?.order?._id}`);
+        }).catch((e) => console.log(e))
+    }
 
     React.useEffect(() => {
         if (error) toast.error(error?.data?.message)
@@ -20,7 +33,7 @@ const Invoice = () => {
             {isLoading ? <Loader /> :
                 <div className="order-invoice my-5">
                     <div className="row d-flex justify-content-center mb-5">
-                        <button className="btn btn-success col-md-5">
+                        <button className="btn btn-success col-md-5" onClick={download}>
                             <i className="fa fa-print"></i> Download Invoice
                         </button>
                     </div>
