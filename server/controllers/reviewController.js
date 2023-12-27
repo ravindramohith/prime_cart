@@ -1,3 +1,4 @@
+const Order = require("../models/Order");
 const Product = require("../models/Product");
 const catchAsync = require("../utils/catchAsync");
 const ErrorHandler = require("../utils/errorHandler");
@@ -89,4 +90,15 @@ exports.deleteProductReview = catchAsync(async (req, res, next) => {
     message: "Review deleted successfully",
     product,
   });
+});
+
+exports.checkUserReview = catchAsync(async (req, res, next) => {
+  const orders = await Order.find({
+    user: req.user._id,
+    "orderItems.product": req.query.productId,
+  });
+
+  if (orders.length > 0)
+    res.status(200).json({ success: true, canReview: false });
+  else res.status(200).json({ success: true, canReview: true });
 });
