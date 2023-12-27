@@ -1,6 +1,6 @@
 import React from 'react';
 import StarRatings from 'react-star-ratings';
-import { useSubmitReviewMutation } from '../../redux/api/review';
+import { useSubmitReviewMutation } from '../../redux/api/product';
 import toast from 'react-hot-toast';
 
 const Review = ({ productId }) => {
@@ -9,10 +9,7 @@ const Review = ({ productId }) => {
 
     const [submitReview, { data, isLoading, error, isSuccess }] = useSubmitReviewMutation();
 
-    const SubmitReview = () => {
-        console.log(rating, comment, productId);
-        submitReview({ rating, comment, productId });
-    }
+    const SubmitReview = () => submitReview({ rating, comment, productId });
 
     React.useEffect(() => {
         if (error) {
@@ -20,7 +17,7 @@ const Review = ({ productId }) => {
         }
 
         if (isSuccess) toast.success(data?.message || "Review Posted successfully");
-    }, [error])
+    }, [error, isSuccess])
     return (
         <>
             <div>
