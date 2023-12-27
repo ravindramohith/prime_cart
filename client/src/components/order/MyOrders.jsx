@@ -4,9 +4,15 @@ import toast from 'react-hot-toast'
 import Loader from '../layout/Loader';
 import MetaData from '../layout/MetaData';
 import { MDBDataTable } from 'mdbreact'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { clearCart } from '../../redux/features/cartSlice';
 
 const MyOrders = () => {
+    const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const { data, isLoading, error } = useMyOrdersQuery();
 
     const setOrders = () => {
@@ -64,6 +70,8 @@ const MyOrders = () => {
 
     React.useEffect(() => {
         if (error) toast.error(error?.data?.message)
+
+        if (searchParams.get("order_success")) { dispatch(clearCart()); navigate("/me/orders") }
     }, [error])
     return (
         <>

@@ -18,7 +18,7 @@ const PaymentMethods = () => {
     React.useEffect(() => {
         if (isSuccess) {
             toast.success(data?.message);
-            navigate("/me/orders");
+            navigate("/me/orders?order_success=true");
         };
 
         if (error)
