@@ -4,7 +4,12 @@ const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 
 // body parser
-app.use(express.json({ limit: "10mb" }));
+app.use(
+  express.json({
+    limit: "10mb",
+    verify: (req, res, buf) => (req.rawBody = buf.toString()), // getting raw body for stripe webhook
+  })
+);
 
 //cookie parser
 app.use(cookieParser());
