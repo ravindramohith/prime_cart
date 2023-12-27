@@ -57,7 +57,7 @@ const Order = () => {
                                 </tr>
                                 <tr>
                                     <th scope="row">Address</th>
-                                    <td>{data?.order?.shipping?.address}</td>
+                                    <td>{data?.order?.shipping?.address}, {data?.order?.shipping?.city}, {data?.order?.shipping?.country}, {data?.order?.shipping?.zipCode}</td>
                                 </tr>
                             </tbody>
                         </table>

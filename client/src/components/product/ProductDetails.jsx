@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCartItem } from '../../redux/features/cartSlice';
 import MetaData from '../layout/MetaData';
+import Review from '../review/Review';
 
 const ProductDetails = () => {
     const params = useParams();
@@ -14,6 +15,7 @@ const ProductDetails = () => {
 
     const { data, isLoading, error, isError } = useGetProductQuery(params);
     const { cartItems } = useSelector(state => state.cart);
+    const { isAuthenticated } = useSelector(state => state.auth);
     const product = data?.data
     React.useEffect(() => {
         if (isError) {
@@ -139,9 +141,9 @@ const ProductDetails = () => {
                         <hr />
                         <p id="product_seller mb-3">Sold by: <strong>{product?.seller}</strong></p>
 
-                        <div className="alert alert-danger my-5" type="alert">
+                        {isAuthenticated ? <Review productId={product?._id} /> : <div className="alert alert-danger my-5" type="alert">
                             Login to post your review.
-                        </div>
+                        </div>}
                     </div>
                 </div>
             </>
