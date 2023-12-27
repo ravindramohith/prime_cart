@@ -50,7 +50,7 @@ exports.stripeCheckoutSession = catchAsync(async (req, res, next) => {
     line_items,
     mode: "payment",
     metadata: { ...shippingInfo, itemsPrice: req.body.itemsPrice },
-    success_url: `${process.env.CLIENT_URL}/me/orders`,
+    success_url: `${process.env.CLIENT_URL}/me/orders?order_success=true`,
     cancel_url: `${process.env.CLIENT_URL}`,
     customer_email: req.user.email,
     client_reference_id: req.user._id.toString(),
@@ -109,7 +109,7 @@ exports.postStripePayment = catchAsync(async (req, res, next) => {
         paymentMethod: "Card",
         user,
       });
-      
+
       res.status(200).json({
         success: true,
         url: session.url,
