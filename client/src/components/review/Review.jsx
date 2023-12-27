@@ -1,6 +1,6 @@
 import React from 'react';
 import StarRatings from 'react-star-ratings';
-import { useSubmitReviewMutation } from '../../redux/api/product';
+import { useCheckReviewQuery, useSubmitReviewMutation } from '../../redux/api/product';
 import toast from 'react-hot-toast';
 
 const Review = ({ productId }) => {
@@ -8,6 +8,7 @@ const Review = ({ productId }) => {
     const [comment, setComment] = React.useState("");
 
     const [submitReview, { data, isLoading, error, isSuccess }] = useSubmitReviewMutation();
+    const { data: checkReview } = useCheckReviewQuery(productId);
 
     const SubmitReview = () => submitReview({ rating, comment, productId });
 
@@ -21,16 +22,17 @@ const Review = ({ productId }) => {
     return (
         <>
             <div>
-                <button
-                    id="review_btn"
-                    type="button"
-                    className="btn btn-primary mt-4"
-                    data-bs-toggle="modal"
-                    data-bs-target="#ratingModal"
-                >
-                    Submit Your Review
-                </button>
-
+                {checkReview?.canReview &&
+                    <button
+                        id="review_btn"
+                        type="button"
+                        className="btn btn-primary mt-4"
+                        data-bs-toggle="modal"
+                        data-bs-target="#ratingModal"
+                    >
+                        Submit Your Review
+                    </button>
+                }
                 <div className="row mt-2 mb-5">
                     <div className="rating w-50">
                         <div

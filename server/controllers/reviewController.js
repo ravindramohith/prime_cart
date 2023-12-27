@@ -99,6 +99,6 @@ exports.checkUserReview = catchAsync(async (req, res, next) => {
   });
 
   if (orders.length > 0)
-    res.status(200).json({ success: true, canReview: false });
-  else res.status(200).json({ success: true, canReview: true });
+    res.status(200).json({ success: true, canReview: true });
+  else res.status(200).json({ success: true, canReview: false });
 });
