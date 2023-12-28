@@ -1,5 +1,5 @@
 import React from 'react'
-import { useGetProductsAdminQuery } from '../../redux/api/product'
+import { useDeleteProductMutation, useGetProductsAdminQuery } from '../../redux/api/product'
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import MetaData from '../layout/MetaData';
@@ -9,6 +9,7 @@ import AdminLayout from './AdminLayout';
 
 const AdminProducts = () => {
     const { data, isLoading, error } = useGetProductsAdminQuery();
+    const [deleteProduct, { isLoading: deleteProductLoading, error: deleteProductError, isSuccess: deleteProductSuccess, data: deleteProductData }] = useDeleteProductMutation();
 
     const setProducts = () => {
         const products = {
@@ -49,7 +50,7 @@ const AdminProducts = () => {
                     <Link to={`/admin/products/${product?._id}/upload_images`} className='btn btn-outline-success ms-2'>
                         <i className='fa fa-image'></i>
                     </Link>
-                    <button className='btn btn-outline-danger ms-2'>
+                    <button className='btn btn-outline-danger ms-2' onClick={() => deleteProduct(product?._id)} disabled={deleteProductLoading}>
                         <i className='fa fa-trash'></i>
                     </button>
                 </>)
@@ -61,8 +62,11 @@ const AdminProducts = () => {
     }
 
     React.useEffect(() => {
-        if (error) toast.error(error?.data?.message)
-    }, [error])
+        if (error) toast.error(error?.data?.message || "Something went wrong")
+        if (deleteProductError) toast.error(deleteProductError?.data?.message || "Something went wrong")
+
+        if (deleteProductSuccess) toast.success(deleteProductData?.message || "Deleted Product");
+    }, [error, deleteProductError, deleteProductSuccess])
     return (
         <AdminLayout>
             <MetaData title={"All Products | Admin"} />
