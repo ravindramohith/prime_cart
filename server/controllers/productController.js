@@ -76,12 +76,17 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteProduct = catchAsync(async (req, res, next) => {
-  const product = await Product.findByIdAndDelete(req.params.id);
+  const product = await Product.findById(req.params.id);
   if (!product)
     return next(
       new ErrorHandler(`Product not found with id: ${req.params.id}`, 404)
     );
 
+  for (let i = 0; i < product.images.length; i++) {
+    await deleteFile(product.images[i].public_id);
+  }
+
+  await product.deleteOne();
   res.status(200).json({
     success: true,
     message: "Product deleted successfully",
