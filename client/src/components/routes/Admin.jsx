@@ -9,6 +9,7 @@ import UploadImages from '../admin/UploadImages'
 import AdminOrders from '../admin/AdminOrders'
 import ProcessOrder from '../admin/ProcessOrder'
 import AdminUsers from '../admin/AdminUsers'
+import UpdateUser from '../admin/UpdateUser'
 
 const Admin = () => {
     return (
@@ -74,6 +75,14 @@ const Admin = () => {
                 element={
                     <ProtectedRoute admin>
                         <AdminUsers />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/admin/users/:id"
+                element={
+                    <ProtectedRoute admin>
+                        <UpdateUser />
                     </ProtectedRoute>
                 }
             />
