@@ -77,7 +77,7 @@ const MyOrders = () => {
         <>
             <MetaData title={"My Orders"} />
             {isLoading ? <Loader /> :
-                <div><h1 class="my-5">{data?.orders?.length} Orders</h1></div>
+                <div><h1 className="my-5">{data?.orders?.length} Orders</h1></div>
             }
             <MDBDataTable data={setOrders()} className='px-3' bordered striped hover />
         </>

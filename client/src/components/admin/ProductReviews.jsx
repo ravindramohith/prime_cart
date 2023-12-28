@@ -4,6 +4,7 @@ import { useDeleteReviewMutation, useLazyGetReviewsAdminQuery } from '../../redu
 import toast from 'react-hot-toast';
 import { MDBDataTable } from 'mdbreact';
 import Loader from '../layout/Loader';
+import MetaData from '../layout/MetaData';
 
 const ProductReviews = () => {
     const [productId, setProductId] = React.useState("");
@@ -77,6 +78,7 @@ const ProductReviews = () => {
 
     return (
         <AdminLayout>
+            <MetaData title={"Reviews | Admin"} />
             <div className="row justify-content-center my-5">
                 <div className="col-6">
                     <form onSubmit={submitForm}>
