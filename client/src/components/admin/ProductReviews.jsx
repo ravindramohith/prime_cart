@@ -1,6 +1,6 @@
 import React from 'react'
 import AdminLayout from './AdminLayout'
-import { useLazyGetReviewsAdminQuery } from '../../redux/api/product';
+import { useDeleteReviewMutation, useLazyGetReviewsAdminQuery } from '../../redux/api/product';
 import toast from 'react-hot-toast';
 import { MDBDataTable } from 'mdbreact';
 import Loader from '../layout/Loader';
@@ -8,7 +8,8 @@ import Loader from '../layout/Loader';
 const ProductReviews = () => {
     const [productId, setProductId] = React.useState("");
 
-    const [getReviews, { isLoading: getReviewsLoading, error: getReviewsError, isSuccess: getReviewsSuccess, data }] = useLazyGetReviewsAdminQuery();
+    const [getReviews, { isLoading: getReviewsLoading, error: getReviewsError, data }] = useLazyGetReviewsAdminQuery();
+    const [deleteReview, { isLoading: deleteReviewLoading, error: deleteReviewError, isSuccess: deleteReviewSuccess, data: deleteReviewData }] = useDeleteReviewMutation();
 
     const setReviews = () => {
         const reviews = {
@@ -50,8 +51,8 @@ const ProductReviews = () => {
                 user: review.user?.name,
                 actions: (
                     <button className='btn btn-outline-danger ms-2'
-                    // onClick={() => deleteUser(review?._id)}
-                    // disabled={deleteUserLoading}
+                        onClick={() => deleteReview({ id: review?._id, productId })}
+                        disabled={deleteReviewLoading}
                     >
                         <i className='fa fa-trash'></i>
                     </button>
@@ -69,8 +70,10 @@ const ProductReviews = () => {
 
     React.useEffect(() => {
         if (getReviewsError) toast.error(getReviewsError?.data?.message || "Something went wrong")
+        if (deleteReviewError) toast.error(deleteReviewError?.data?.message || "Something went wrong")
 
-    }, [getReviewsError])
+        if (deleteReviewSuccess) toast.success(deleteReviewData?.message || "Review deleted successfully");
+    }, [getReviewsError, deleteReviewError, deleteReviewSuccess])
 
     return (
         <AdminLayout>
