@@ -20,7 +20,10 @@ exports.getOrder = catchAsync(async (req, res, next) => {
 
   if (!order) return next(new ErrorHandler("Order not found", 404));
 
-  if (req.user._id.toString() !== order.user._id.toString())
+  if (
+    req.user._id.toString() !== order.user._id.toString() &&
+    req.user.role !== "admin"
+  )
     return next(
       new ErrorHandler("You are not authorized to view this order", 403)
     );
@@ -71,7 +74,7 @@ exports.processOrder = catchAsync(async (req, res, next) => {
   });
 
   order.orderStatus = req.body.orderStatus;
-  if (req.body.status === "Delivered") order.deliveredAt = Date.now();
+  if (req.body.orderStatus === "Delivered") order.deliveredAt = Date.now();
 
   await order.save();
 

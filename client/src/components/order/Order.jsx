@@ -106,7 +106,7 @@ const Order = () => {
                                     </div>
 
                                     <div className="col-4 col-lg-2 mt-4 mt-lg-0">
-                                        <p>Rs.{orderItem?.totalAmount}</p>
+                                        <p>Rs.{orderItem?.price}</p>
                                     </div>
 
                                     <div className="col-4 col-lg-3 mt-4 mt-lg-0">

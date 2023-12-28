@@ -7,6 +7,7 @@ import NewProduct from '../admin/NewProduct'
 import UpdateProduct from '../admin/UpdateProduct'
 import UploadImages from '../admin/UploadImages'
 import AdminOrders from '../admin/AdminOrders'
+import ProcessOrder from '../admin/ProcessOrder'
 
 const Admin = () => {
     return (
@@ -56,6 +57,14 @@ const Admin = () => {
                 element={
                     <ProtectedRoute admin>
                         <AdminOrders />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/admin/orders/:id"
+                element={
+                    <ProtectedRoute admin>
+                        <ProcessOrder />
                     </ProtectedRoute>
                 }
             />

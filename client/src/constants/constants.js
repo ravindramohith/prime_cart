@@ -12,3 +12,5 @@ export const CATEGORIES = [
 ];
 
 export const RATINGS = [5, 4, 3, 2, 1];
+
+export const STATUS = ["Processing", "Shipped", "Delivered"];
