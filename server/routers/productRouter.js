@@ -5,6 +5,7 @@ const {
   updateProduct,
   deleteProduct,
   getAllProductsAdmin,
+  uploadProductImages,
 } = require("../controllers/productController");
 const { checkAuth, authorizedRoles } = require("../middlewares/auth");
 
@@ -23,5 +24,9 @@ router
 router
   .route("/get/admin/")
   .get(checkAuth, authorizedRoles("admin"), getAllProductsAdmin);
+
+router
+  .route("/admin/:id/upload_images")
+  .put(checkAuth, authorizedRoles("admin"), uploadProductImages);
 
 module.exports = router;

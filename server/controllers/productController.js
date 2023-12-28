@@ -1,6 +1,7 @@
 const Product = require("../models/Product");
 const APIFactory = require("../utils/apiFactory");
 const catchAsync = require("../utils/catchAsync");
+const { uploadFile } = require("../utils/cloudinary");
 const ErrorHandler = require("../utils/errorHandler");
 
 const ITEMS_PER_PAGE = 4;
@@ -84,5 +85,24 @@ exports.deleteProduct = catchAsync(async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: "Product deleted successfully",
+  });
+});
+
+exports.uploadProductImages = catchAsync(async (req, res, next) => {
+  const product = await Product.findById(req.params.id);
+  if (!product)
+    return next(
+      new ErrorHandler(`Product not found with id: ${req.params.id}`, 404)
+    );
+
+  const uploader = async (image) => uploadFile(image, "eshop/products");
+
+  const urls = await Promise.all(req.body.images.map(uploader));
+  product?.images?.push(...urls);
+  await product.save();
+  
+  res.status(200).json({
+    success: true,
+    message: "Product Images Uploaded successfully",
   });
 });
