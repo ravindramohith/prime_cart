@@ -82,37 +82,37 @@ const Invoice = () => {
                                         <tr>
                                             <td className="service">{orderItem?.product}</td>
                                             <td className="desc">{orderItem?.name}</td>
-                                            <td className="unit">Rs.{orderItem?.price}</td>
+                                            <td className="unit">₹{orderItem?.price}</td>
                                             <td className="qty">{orderItem?.quantity}</td>
-                                            <td className="total">Rs.{orderItem?.price * orderItem?.quantity}</td>
+                                            <td className="total">₹{orderItem?.price * orderItem?.quantity}</td>
                                         </tr>
                                     ))}
                                     <tr>
                                         <td colspan="4">
                                             <b>SUBTOTAL</b>
                                         </td>
-                                        <td className="total">Rs.{data?.order?.itemsPrice}</td>
+                                        <td className="total">₹{data?.order?.itemsPrice}</td>
                                     </tr>
 
                                     <tr>
                                         <td colspan="4">
                                             <b>TAX 10%(GST)</b>
                                         </td>
-                                        <td className="total">Rs.{data?.order?.tax}</td>
+                                        <td className="total">₹{data?.order?.tax}</td>
                                     </tr>
 
                                     <tr>
                                         <td colspan="4">
                                             <b>SHIPPING CHARGES</b>
                                         </td>
-                                        <td className="total">Rs.{data?.order?.shippingAmount}</td>
+                                        <td className="total">₹{data?.order?.shippingAmount}</td>
                                     </tr>
 
                                     <tr>
                                         <td colspan="4" className="grand total">
                                             <b>GRAND TOTAL</b>
                                         </td>
-                                        <td className="grand total">Rs.{data?.order?.totalAmount}</td>
+                                        <td className="grand total">₹{data?.order?.totalAmount}</td>
                                     </tr>
                                 </tbody>
                             </table>

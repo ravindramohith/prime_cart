@@ -84,7 +84,7 @@ const ProcessOrder = () => {
                             </tr>
                             <tr>
                                 <th scope="row">Amount Paid</th>
-                                <td>Rs.{data?.order?.totalAmount}</td>
+                                <td>₹{data?.order?.totalAmount}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -109,7 +109,7 @@ const ProcessOrder = () => {
                                 </div>
 
                                 <div className="col-4 col-lg-2 mt-4 mt-lg-0">
-                                    <p>Rs.{orderItem?.price}</p>
+                                    <p>₹{orderItem?.price}</p>
                                 </div>
 
                                 <div className="col-4 col-lg-3 mt-4 mt-lg-0">

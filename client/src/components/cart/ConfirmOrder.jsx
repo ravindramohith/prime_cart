@@ -45,7 +45,7 @@ const ConfirmOrder = () => {
                                     </div>
 
                                     <div className="col-4 col-lg-4 mt-4 mt-lg-0">
-                                        <p>{item?.quantity} x Rs.{item?.price} = <b>Rs.{(item?.quantity * item?.price).toFixed(2)}</b></p>
+                                        <p>{item?.quantity} x ₹{item?.price} = <b>₹{(item?.quantity * item?.price).toFixed(2)}</b></p>
                                     </div>
                                 </div>
                             </div>
@@ -59,14 +59,14 @@ const ConfirmOrder = () => {
                     <div id="order_summary">
                         <h4>Order Summary</h4>
                         <hr />
-                        <p>Subtotal: <span className="order-summary-values">Rs.{itemsPrice}</span></p>
-                        <p>Shipping: <span className="order-summary-values">Rs.{shippingPrice}</span></p>
-                        {shippingPrice === 0 && <p style={{ fontSize: "14px" }} classNameName='greenColor'>(Free Delivery on Orders Above Rs.9000)</p>}
-                        <p>Tax: <span className="order-summary-values">Rs.{taxPrice}</span></p>
+                        <p>Subtotal: <span className="order-summary-values">₹{itemsPrice}</span></p>
+                        <p>Shipping: <span className="order-summary-values">₹{shippingPrice}</span></p>
+                        {shippingPrice === 0 && <p style={{ fontSize: "14px" }} classNameName='greenColor'>(Free Delivery on Orders Above ₹9000)</p>}
+                        <p>Tax: <span className="order-summary-values">₹{taxPrice}</span></p>
 
                         <hr />
 
-                        <p>Total: <span className="order-summary-values">Rs.{totalPrice}</span></p>
+                        <p>Total: <span className="order-summary-values">₹{totalPrice}</span></p>
 
                         <hr />
                         <Link to="/payment_method" id="checkout_btn" className="btn btn-primary w-100">

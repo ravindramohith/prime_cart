@@ -55,7 +55,7 @@ const Cart = () => {
                                                 <Link to={`/product/${item?.product}`}> {item?.name}</Link>
                                             </div>
                                             <div className="col-4 col-lg-2 mt-4 mt-lg-0">
-                                                <p id="card_item_price">Rs.{item?.price * (item?.quantity || 1)}</p>
+                                                <p id="card_item_price">₹{item?.price * (item?.quantity || 1)}</p>
                                             </div>
                                             <div className="col-4 col-lg-3 mt-4 mt-lg-0">
                                                 <div className="stockCounter d-inline">
@@ -94,7 +94,7 @@ const Cart = () => {
                                 <h4>Order Summary</h4>
                                 <hr />
                                 <p>Subtotal: <span className="order-summary-values">{cartItems?.reduce((acc, item) => acc + item?.quantity, 0)} (Product{cartItems?.reduce((acc, item) => acc + item?.quantity, 0) <= 1 ? "" : "s"})</span></p>
-                                <p>Est. total: <span className="order-summary-values">Rs.{cartItems?.reduce((acc, item) => acc + item?.price * item?.quantity, 0).toFixed(2)}</span></p>
+                                <p>Est. total: <span className="order-summary-values">₹{cartItems?.reduce((acc, item) => acc + item?.price * item?.quantity, 0).toFixed(2)}</span></p>
                                 <hr />
                                 <button id="checkout_btn" className="btn btn-primary w-100" onClick={checkout}>
                                     Check out

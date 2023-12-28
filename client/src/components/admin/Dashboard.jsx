@@ -61,7 +61,7 @@ const Dashboard = () => {
                                 <div className="text-center card-font-size">
                                     Sales
                                     <br />
-                                    <b>Rs.{data?.totalSales.toFixed(2)}</b>
+                                    <b>₹{data?.totalSales.toFixed(2)}</b>
                                 </div>
                             </div>
                         </div>
