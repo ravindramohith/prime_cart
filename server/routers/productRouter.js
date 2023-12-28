@@ -4,6 +4,7 @@ const {
   getProduct,
   updateProduct,
   deleteProduct,
+  getAllProductsAdmin,
 } = require("../controllers/productController");
 const { checkAuth, authorizedRoles } = require("../middlewares/auth");
 
@@ -18,5 +19,9 @@ router
   .get(getProduct)
   .put(checkAuth, authorizedRoles("admin"), updateProduct)
   .delete(checkAuth, authorizedRoles("admin"), deleteProduct);
+
+router
+  .route("/get/admin/")
+  .get(checkAuth, authorizedRoles("admin"), getAllProductsAdmin);
 
 module.exports = router;
