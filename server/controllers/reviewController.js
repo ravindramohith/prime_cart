@@ -45,7 +45,7 @@ exports.postProductReview = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllProductReviews = catchAsync(async (req, res, next) => {
-  const product = await Product.findById(req.query.productId);
+  const product = await Product.findById(req.query.productId).populate("reviews.user");
   console.log(req.query);
   if (!product)
     return next(
