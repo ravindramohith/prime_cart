@@ -67,9 +67,11 @@ const AdminProducts = () => {
         <AdminLayout>
             <MetaData title={"All Products | Admin"} />
             {isLoading ? <Loader /> :
-                <div><h1 className="my-5">{data?.data?.length} Products</h1></div>
+                <>
+                    <div><h1 className="my-5">{data?.data?.length} Products</h1></div>
+                    <MDBDataTable data={setProducts()} className='px-3' bordered striped hover />
+                </>
             }
-            <MDBDataTable data={setProducts()} className='px-3' bordered striped hover />
         </AdminLayout>
     )
 }
