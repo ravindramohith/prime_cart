@@ -6,6 +6,7 @@ const {
   deleteProduct,
   getAllProductsAdmin,
   uploadProductImages,
+  deleteProductImage,
 } = require("../controllers/productController");
 const { checkAuth, authorizedRoles } = require("../middlewares/auth");
 
@@ -28,5 +29,8 @@ router
 router
   .route("/admin/:id/upload_images")
   .put(checkAuth, authorizedRoles("admin"), uploadProductImages);
+router
+  .route("/admin/:id/delete_image")
+  .put(checkAuth, authorizedRoles("admin"), deleteProductImage);
 
 module.exports = router;
