@@ -19,7 +19,6 @@ exports.postProductReview = catchAsync(async (req, res, next) => {
   const alreadyReviewed = product.reviews?.find(
     (review) => review.user.toString() === req.user._id.toString()
   );
-  console.log(alreadyReviewed);
 
   if (alreadyReviewed) {
     product.reviews?.forEach((review) => {
@@ -46,7 +45,6 @@ exports.postProductReview = catchAsync(async (req, res, next) => {
 
 exports.getAllProductReviews = catchAsync(async (req, res, next) => {
   const product = await Product.findById(req.query.productId).populate("reviews.user");
-  console.log(req.query);
   if (!product)
     return next(
       new ErrorHandler(`Product not found with id: ${req.query.productId}`, 404)

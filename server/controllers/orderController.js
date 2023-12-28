@@ -56,8 +56,6 @@ exports.getAllOrders = catchAsync(async (req, res, next) => {
 exports.processOrder = catchAsync(async (req, res, next) => {
   const order = await Order.findById(req.params.id);
 
-  console.log(req.params.id);
-
   if (!order) return next(new ErrorHandler("No Order found with this ID", 404));
 
   if (order?.orderStatus === "Delivered")
