@@ -99,7 +99,7 @@ exports.deleteUser = catchAsync(async (req, res, next) => {
 
   if (user?.avatar?.public_id) await deleteFile(user?.avatar?.public_id);
 
-  user.deleteOne();
+  await user.deleteOne();
   res.status(200).json({
     success: true,
     message: "User deleted successfully",

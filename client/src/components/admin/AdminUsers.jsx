@@ -5,12 +5,11 @@ import MetaData from '../layout/MetaData';
 import Loader from '../layout/Loader';
 import { MDBDataTable } from 'mdbreact';
 import AdminLayout from './AdminLayout';
-import { useDeleteOrderMutation } from '../../redux/api/order';
-import { useGetAdminUsersQuery } from '../../redux/api/user';
+import { useDeleteAdminUserMutation, useGetAdminUsersQuery } from '../../redux/api/user';
 
 const AdminUsers = () => {
     const { data, isLoading, error } = useGetAdminUsersQuery();
-    const [deleteOrder, { isLoading: deleteOrderLoading, error: deleteOrderError, isSuccess: deleteOrderSuccess, data: deleteOrderData }] = useDeleteOrderMutation();
+    const [deleteUser, { isLoading: deleteUserLoading, error: deleteUserError, isSuccess: deleteUserSuccess, data: deleteUserData }] = useDeleteAdminUserMutation();
 
     const setUsers = () => {
         const users = {
@@ -55,8 +54,8 @@ const AdminUsers = () => {
                         <i className='fa fa-pencil'></i>
                     </Link>
                     <button className='btn btn-outline-danger ms-2'
-                    // onClick={() => deleteOrder(user?._id)}
-                    // disabled={deleteOrderLoading}
+                        onClick={() => deleteUser(user?._id)}
+                        disabled={deleteUserLoading}
                     >
                         <i className='fa fa-trash'></i>
                     </button>
@@ -70,10 +69,10 @@ const AdminUsers = () => {
 
     React.useEffect(() => {
         if (error) toast.error(error?.data?.message || "Something went wrong")
-        // if (deleteOrderError) toast.error(deleteOrderError?.data?.message || "Something went wrong")
+        if (deleteUserError) toast.error(deleteUserError?.data?.message || "Something went wrong")
 
-        // if (deleteOrderSuccess) toast.success(deleteOrderData?.message || "Deleted Order");
-    }, [error])
+        if (deleteUserSuccess) toast.success(deleteUserData?.message || "Deleted User");
+    }, [error, deleteUserError, deleteUserSuccess])
     return (
         <AdminLayout>
             <MetaData title={"All Users | Admin"} />
