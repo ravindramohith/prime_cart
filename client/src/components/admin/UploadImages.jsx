@@ -1,6 +1,6 @@
 import React from 'react'
 import AdminLayout from './AdminLayout'
-import { useGetProductQuery, useUploadProductImagesMutation } from '../../redux/api/product';
+import { useDeleteProductImageMutation, useGetProductQuery, useUploadProductImagesMutation } from '../../redux/api/product';
 import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import MetaData from '../layout/MetaData';
@@ -15,6 +15,7 @@ const UploadImages = () => {
 
     const { data } = useGetProductQuery(params);
     const [uploadProductImages, { data: uploadProductImagesData, error, isLoading, isSuccess }] = useUploadProductImagesMutation();
+    const [deleteProductImage, { data: deleteProductImageData, error: deleteProductImageError, isLoading: deleteProductImageIsLoading, isSuccess: deleteProductImageIsSuccess }] = useDeleteProductImageMutation();
 
     const onChange = (e) => {
         const files = Array.from(e.target.files);
@@ -50,12 +51,18 @@ const UploadImages = () => {
         uploadProductImages({ id: params?.id, body: { images } })
     }
 
+    const deleteImage = (imageId) => {
+        deleteProductImage({ id: params?.id, body: { imgId: imageId } })
+    }
+
     React.useEffect(() => {
         if (data?.data) setUploadedImages(data?.data?.images)
         if (error) toast.error(error?.data?.message || "Something went wrong");
+        if (deleteProductImageError) toast.error(deleteProductImageError?.data?.message || "Something went wrong");
 
-        if (isSuccess) toast.success(uploadProductImagesData?.message || "Product Images Uploaded successfully");
-    }, [data, isSuccess, error])
+        if (isSuccess) { toast.success(uploadProductImagesData?.message || "Product Images Uploaded successfully"); resetFileInput(); setImagesPreviews([]); }
+        if (deleteProductImageIsSuccess) toast.success(deleteProductImageData?.message || "Product Images Deleted successfully");
+    }, [data, isSuccess, error, deleteProductImageError, deleteProductImageIsSuccess])
     return (
         <AdminLayout>
             <MetaData title={"Upload Product Images | Admin"} />
@@ -122,8 +129,9 @@ const UploadImages = () => {
                                                     <button
                                                         style={{ backgroundColor: "#dc3545", borderColor: "#dc3545" }}
                                                         className="btn btn-block btn-danger cross-button mt-1 py-0"
-                                                        disabled="true"
+                                                        disabled={isLoading || deleteProductImageIsLoading}
                                                         type="button"
+                                                        onClick={() => deleteImage(image.public_id)}
                                                     >
                                                         <i className="fa fa-trash"></i>
                                                     </button>
@@ -135,7 +143,7 @@ const UploadImages = () => {
                             }
                         </div>
 
-                        <button id="register_button" type="submit" className="btn w-100 py-2" disabled={isLoading}>
+                        <button id="register_button" type="submit" className="btn w-100 py-2" disabled={isLoading || deleteProductImageIsLoading}>
                             {isLoading ? "Uploading..." : "Upload"}
                         </button>
                     </form>
