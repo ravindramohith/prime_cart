@@ -15,7 +15,7 @@ const AdminLayout = ({ children }) => {
         },
         {
             name: "Products",
-            url: "/me/upload_avatar",
+            url: "/admin/products",
             icon: "fab fa-product-hunt",
         },
         {

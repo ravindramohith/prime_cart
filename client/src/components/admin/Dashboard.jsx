@@ -7,6 +7,7 @@ import SalesChart from '../charts/SalesChart';
 import { useLazyGetSalesQuery } from '../../redux/api/order';
 import toast from 'react-hot-toast';
 import Loader from '../layout/Loader';
+import MetaData from '../layout/MetaData';
 
 const Dashboard = () => {
     const [startDate, setStartDate] = React.useState(new Date().setDate(1));
@@ -24,6 +25,7 @@ const Dashboard = () => {
     }, [error]);
     return (
         <AdminLayout>
+            <MetaData title={"Dashboard | Admin"} />
             {isLoading ? <Loader /> : <>
                 <div className="d-flex justify-content-start align-items-center">
                     <div className="mb-3 me-4">
