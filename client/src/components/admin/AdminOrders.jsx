@@ -1,16 +1,15 @@
 import React from 'react'
-import { useDeleteProductMutation } from '../../redux/api/product'
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import MetaData from '../layout/MetaData';
 import Loader from '../layout/Loader';
 import { MDBDataTable } from 'mdbreact';
 import AdminLayout from './AdminLayout';
-import { useGetAdminOrdersQuery } from '../../redux/api/order';
+import { useDeleteOrderMutation, useGetAdminOrdersQuery } from '../../redux/api/order';
 
 const AdminOrders = () => {
     const { data, isLoading, error } = useGetAdminOrdersQuery();
-    const [deleteProduct, { isLoading: deleteProductLoading, error: deleteProductError, isSuccess: deleteProductSuccess, data: deleteProductData }] = useDeleteProductMutation();
+    const [deleteOrder, { isLoading: deleteOrderLoading, error: deleteOrderError, isSuccess: deleteOrderSuccess, data: deleteOrderData }] = useDeleteOrderMutation();
 
     const setOrders = () => {
         const orders = {
@@ -49,8 +48,8 @@ const AdminOrders = () => {
                         <i className='fa fa-pencil'></i>
                     </Link>
                     <button className='btn btn-outline-danger ms-2'
-                    // onClick={() => deleteProduct(product?._id)}
-                    // disabled={deleteProductLoading}
+                        onClick={() => deleteOrder(order?._id)}
+                        disabled={deleteOrderLoading}
                     >
                         <i className='fa fa-trash'></i>
                     </button>
@@ -64,10 +63,10 @@ const AdminOrders = () => {
 
     React.useEffect(() => {
         if (error) toast.error(error?.data?.message || "Something went wrong")
-        // if (deleteProductError) toast.error(deleteProductError?.data?.message || "Something went wrong")
+        if (deleteOrderError) toast.error(deleteOrderError?.data?.message || "Something went wrong")
 
-        // if (deleteProductSuccess) toast.success(deleteProductData?.message || "Deleted Product");
-    }, [error])
+        if (deleteOrderSuccess) toast.success(deleteOrderData?.message || "Deleted Order");
+    }, [error, deleteOrderError, deleteOrderSuccess])
     return (
         <AdminLayout>
             <MetaData title={"All Orders | Admin"} />
