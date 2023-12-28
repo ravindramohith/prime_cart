@@ -91,7 +91,15 @@ exports.updateUser = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteUser = catchAsync(async (req, res, next) => {
-  const user = await User.findByIdAndDelete(req.params.id);
+  const user = await User.findById(req.params.id);
+  if (!user)
+    return next(
+      new ErrorHandler("User not found with id: " + req.params.id, 404)
+    );
+
+  if (user?.avatar?.public_id) await deleteFile(user?.avatar?.public_id);
+
+  user.deleteOne();
   res.status(200).json({
     success: true,
     message: "User deleted successfully",
